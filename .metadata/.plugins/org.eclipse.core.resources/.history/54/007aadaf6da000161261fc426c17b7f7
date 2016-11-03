@@ -1,0 +1,58 @@
+package coloreoGrafos;
+
+import java.io.*;
+import java.util.*;
+
+public class Generador {
+
+	public static void genRanProb(int N, double prob){
+		int cA = 0;
+		int grMax = 0;
+		int grMin = N-1;
+		int vecAuxGrado[] = new int[N];
+		int gradoParcial = 0;
+		int gradoTot = 0;
+		MatrizSimetrica mat = new MatrizSimetrica(N);
+		for(int i = 0; i < N-1; i++){
+			for (int j = i+1; j < N; j++) {
+				gradoParcial = 0;
+				if (Math.random() <= prob/100){
+					cA++;
+					mat.grabarVal(i, j);
+					vecAuxGrado[j]++;
+					gradoParcial++;
+				}
+			}
+			gradoTot = gradoParcial + vecAuxGrado[i];
+			if (gradoTot > grMax)
+				grMax = gradoTot;
+			if (gradoTot < grMin)
+				grMin = gradoTot;
+		}
+		grabarArchIn(N,cA,grMax,grMin,cA/((N*(N-1))/2),mat);
+	}
+	
+	public static void grabarArchIn(int N, int cA, int grMax, int grMin, double porcAdy, MatrizSimetrica mat){
+		FileWriter fw = null;
+		PrintWriter pw = null;
+		try {
+			fw = new FileWriter(new File("generado.in"));
+			pw = new PrintWriter(fw);
+			pw.println(N + " " + cA + " " + porcAdy + " " + grMax + " " + grMin);
+			for (int i = 0; i < N-1; i++) {
+				for (int j = i+1; j < N; j++) {
+					pw.println(i + " " + j + " " + mat.leerVal(i, j));
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally{
+			try {
+				fw.close();
+				pw.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
+	}
+}

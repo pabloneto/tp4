@@ -1,0 +1,20 @@
+package tests;
+
+import org.junit.*;
+
+import coloreoGrafos.Generador;
+
+
+public class GeneradorTests {
+
+	@Test
+	public void queGeneraCorrectamenteDadosNyProb(){
+		Generador.genRanProb(5, 50,"generado1.in");
+	}
+	
+	@Test
+	public void queGeneraCorrectamenteDadosNyPorcAdy(){
+		Generador.genRanPorcAdy(5, 0.4,"generado2.in");
+	}
+	
+}

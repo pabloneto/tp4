@@ -1,0 +1,15 @@
+package tests;
+
+import org.junit.*;
+
+import coloreoGrafos.Generador;
+
+
+public class GeneradorTests {
+
+	@Test
+	public void queGeneraCorrectamenteDadosNyProb(){
+		Generador.genRanProb(5, 50);
+	}
+	
+}
