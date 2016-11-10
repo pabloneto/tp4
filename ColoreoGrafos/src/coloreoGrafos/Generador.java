@@ -75,10 +75,12 @@ public class Generador {
 		int salto = (N-1-grado)/2+1;
 		if (grado != 0 && grado != 1 && grado != 2) {
 			mat.grabarVal(0, N-1);
+			cA++;
 			for (int i = 0; i < N-1; i++) {
 				int j = i+1;
 				int contGrado = 1;
 				mat.grabarVal(i, j);
+				cA++;
 				j+=salto;
 				while(j<N && contGrado < grado/2){
 					mat.grabarVal(i, j);
@@ -98,6 +100,21 @@ public class Generador {
 			}
 		}
 		else{
+			if(grado == 1)
+				for (int i = 0; i < N-1; i+=2) {
+					mat.grabarVal(i, i+1);
+					cA++;
+				}
+			else{
+				if(grado == 2){
+					mat.grabarVal(0, N-1);
+					cA++;
+					for (int i = 0; i < N-1; i++) {
+						mat.grabarVal(i, i+1);
+						cA++;
+					}
+				}
+			}
 			
 		}
 		double porcAdy = ((double)cA/((double)N*((double)N-1)/2));
@@ -113,7 +130,8 @@ public class Generador {
 			pw.println(N + " " + cA + " " + porcAdy + " " + grMax + " " + grMin);
 			for (int i = 0; i < N-1; i++) {
 				for (int j = i+1; j < N; j++) {
-					pw.println(i + " " + j + " " + (mat.leerVal(i, j) ? 1:0));
+					if(mat.leerVal(i, j))
+						pw.println(i + " " + j);
 				}
 			}
 		} catch (Exception e) {

@@ -19,6 +19,6 @@ public class GeneradorTests {
 	
 	@Test
 	public void queGueneraCorrectamenteRegDadosNyGrado(){
-		Generador.genRegGrado(20, 18, "generado3.in");
+		Generador.genRegGrado(11, 2, "generado3.in");
 	}
 }
