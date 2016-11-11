@@ -1,0 +1,34 @@
+package tests;
+
+import org.junit.*;
+
+import coloreoGrafos.Generador;
+
+
+public class GeneradorTests {
+
+	@Test
+	public void queGeneraCorrectamenteDadosNyProb(){
+		Generador.genRanProb(5, 0.5,"generado1.in");
+	}
+	
+	@Test
+	public void queGeneraCorrectamenteDadosNyPorcAdy(){
+		Generador.genRanPorcAdy(5, 0.4,"generado2.in");
+	}
+	
+	@Test
+	public void queGeneraCorrectamenteRegDadosNyGrado(){
+		Generador.genRegGrado(11, 10, "generado3.in");
+	}
+	
+	@Test
+	public void queGeneraCorrectamenteRegDadosNyPorcAdy(){
+		Generador.genRegPorcAdy(11, 1.0, "generado4.in");
+	}
+	
+	@Test
+	public void queGeneraCorrectamenteNPartito(){
+		Generador.genNPartito(10, 5, "generado5.in");
+	}
+}

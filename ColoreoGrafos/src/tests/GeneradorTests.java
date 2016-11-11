@@ -18,7 +18,17 @@ public class GeneradorTests {
 	}
 	
 	@Test
-	public void queGueneraCorrectamenteRegDadosNyGrado(){
-		Generador.genRegGrado(11, 2, "generado3.in");
+	public void queGeneraCorrectamenteRegDadosNyGrado(){
+		Generador.genRegGrado(11, 10, "generado3.in");
+	}
+	
+	@Test
+	public void queGeneraCorrectamenteRegDadosNyPorcAdy(){
+		Generador.genRegPorcAdy(11, 0, "generado4.in");
+	}
+	
+	@Test
+	public void queGeneraCorrectamenteNPartito(){
+		Generador.genNPartito(10, 5, "generado5.in");
 	}
 }

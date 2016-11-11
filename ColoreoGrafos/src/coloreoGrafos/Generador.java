@@ -5,17 +5,17 @@ import java.util.*;
 
 public class Generador {
 
-	public static void genRanProb(int N, double prob, String path){
+	public static void genRanProb(int n, double prob, String path){
 		int cA = 0;
 		int grMax = 0;
-		int grMin = N-1;
-		int vecAuxGrado[] = new int[N];
+		int grMin = n-1;
+		int vecAuxGrado[] = new int[n];
 		int gradoParcial = 0;
 		int gradoTot = 0;
-		MatrizSimetrica mat = new MatrizSimetrica(N);
-		for(int i = 0; i < N; i++){
+		MatrizSimetrica mat = new MatrizSimetrica(n);
+		for(int i = 0; i < n; i++){
 			gradoParcial = 0;
-			for (int j = i+1; j < N; j++) {
+			for (int j = i+1; j < n; j++) {
 				if (Math.random() <= prob){
 					cA++;
 					mat.grabarVal(i, j);
@@ -29,26 +29,24 @@ public class Generador {
 			if (gradoTot < grMin)
 				grMin = gradoTot;
 		}
-		double porcAdy = ((double)cA/((double)N*((double)N-1)/2));
-		grabarArchIn(N,cA,porcAdy,grMax,grMin,mat,path);
+		double porcAdy = ((double)cA/((double)n*((double)n-1)/2));
+		grabarArchIn(n,cA,porcAdy,grMax,grMin,mat,path);
 	}
 	
-	public static void genRanPorcAdy(int N, double porcAdy, String path){
+	public static void genRanPorcAdy(int n, double porcAdy, String path){
 		int cA = 0;
 		int grMax = 0;
-		int grMin = N-1;
-		int vecAuxGrado[] = new int[N];
-		int gradoParcial = 0;
-		int gradoTot = 0;
+		int grMin = n-1;
+		int vecAuxGrado[] = new int[n];
 		LinkedList<Arista> listArista = new LinkedList<Arista>();
-		for (int i = 0; i < N; i++) {
-			for (int j = i+1; j < N; j++) {
+		for (int i = 0; i < n; i++) {
+			for (int j = i+1; j < n; j++) {
 				listArista.add(new Arista(i,j,Math.random()));
 			}
 		}
 		Collections.sort(listArista);
-		int cant = (int)(porcAdy * ((double)N*((double)N-1)/2));
-		MatrizSimetrica mat = new MatrizSimetrica(N);
+		int cant = (int)(porcAdy * ((double)n*((double)n-1)/2));
+		MatrizSimetrica mat = new MatrizSimetrica(n);
 		for (int i = 0; i < cant; i++) {
 			Arista aris = listArista.pollFirst();
 			mat.grabarVal(aris.getFila(), aris.getCol());
@@ -60,37 +58,37 @@ public class Generador {
 			}
 			cA++;
 		}
-		for (int i = 0; i < N; i++){
+		for (int i = 0; i < n; i++){
 			if(vecAuxGrado[i] < grMin)
 				grMin = vecAuxGrado[i];
 			if(vecAuxGrado[i] > grMax)
 				grMax = vecAuxGrado[i];
 		}
-		grabarArchIn(N,cA,porcAdy,grMax,grMin,mat,path);
+		grabarArchIn(n,cA,porcAdy,grMax,grMin,mat,path);
 	}
 	
-	public static void genRegGrado(int N, int grado, String path){
+	public static void genRegGrado(int n, int grado, String path){
 		int cA = 0;
-		MatrizSimetrica mat = new MatrizSimetrica(N);
-		int salto = (N-1-grado)/2+1;
+		MatrizSimetrica mat = new MatrizSimetrica(n);
+		int salto = (n-1-grado)/2+1;
 		if (grado != 0 && grado != 1 && grado != 2) {
-			mat.grabarVal(0, N-1);
+			mat.grabarVal(0, n-1);
 			cA++;
-			for (int i = 0; i < N-1; i++) {
+			for (int i = 0; i < n-1; i++) {
 				int j = i+1;
 				int contGrado = 1;
 				mat.grabarVal(i, j);
 				cA++;
 				j+=salto;
-				while(j<N && contGrado < grado/2){
+				while(j<n && contGrado < grado/2){
 					mat.grabarVal(i, j);
 					cA++;
 					j++;
 					contGrado++;
 				}
-				if( N%2 == 0 && grado%2 == 0)
+				if( n%2 == 0 && grado%2 == 0)
 					j++;
-				while(j<N && contGrado < grado-1){
+				while(j<n && contGrado < grado-1){
 					mat.grabarVal(i, j);
 					cA++;
 					j++;
@@ -101,15 +99,15 @@ public class Generador {
 		}
 		else{
 			if(grado == 1)
-				for (int i = 0; i < N-1; i+=2) {
+				for (int i = 0; i < n-1; i+=2) {
 					mat.grabarVal(i, i+1);
 					cA++;
 				}
 			else{
 				if(grado == 2){
-					mat.grabarVal(0, N-1);
+					mat.grabarVal(0, n-1);
 					cA++;
-					for (int i = 0; i < N-1; i++) {
+					for (int i = 0; i < n-1; i++) {
 						mat.grabarVal(i, i+1);
 						cA++;
 					}
@@ -117,19 +115,69 @@ public class Generador {
 			}
 			
 		}
-		double porcAdy = ((double)cA/((double)N*((double)N-1)/2));
-		grabarArchIn(N,cA,porcAdy,grado,grado,mat,path);
+		double porcAdy = ((double)cA/((double)n*((double)n-1)/2));
+		grabarArchIn(n,cA,porcAdy,grado,grado,mat,path);
 	}
 	
-	public static void grabarArchIn(int N, int cA, double porcAdy, int grMax, int grMin, MatrizSimetrica mat, String path){
+	public static void genRegPorcAdy(int n, double porcAdy, String path){
+		int gradoPref = 0;
+		double minDif = 1;
+		double dif = 0;
+		int cA = 0;
+		int nImpar = n%2;
+		for (int i = 0; i < n; i += 1 + nImpar) {
+			cA = i*n/2;
+			dif = Math.abs(((double)cA/((double)n*((double)n-1)/2)) - porcAdy);
+			if (dif < minDif){
+				gradoPref = i;
+				minDif = dif;
+			}
+		}
+		Generador.genRegGrado(n, gradoPref, path);
+	}
+	
+	public static void genNPartito(int n, int partes, String path){
+		int cA = 0;
+		int grMax = 0;
+		int grMin = n-1;
+		int vecAuxGrado[] = new int[n];
+		int cont = 0;
+		MatrizSimetrica mat = new MatrizSimetrica(n);
+		int salto = (int)(n/partes);
+		for (int i = 0; i < n-1; i++) {
+			int j = i+salto;
+			while (j < n && cont < partes-1) {
+				mat.grabarVal(i, j);
+				vecAuxGrado[i]++;
+				vecAuxGrado[j]++;
+				cA++;
+				j++;
+			}
+			salto--;
+			if(salto == 0){
+				salto = (int)(n/partes);
+				cont++;
+			}
+		}
+		double porcAdy = ((double)cA/((double)n*((double)n-1)/2));
+		for (int i = 0; i < n; i++){
+			if(vecAuxGrado[i] < grMin)
+				grMin = vecAuxGrado[i];
+			if(vecAuxGrado[i] > grMax)
+				grMax = vecAuxGrado[i];
+		}
+		grabarArchIn(n,cA,porcAdy,grMax,grMin,mat,path);
+	}
+	
+	public static void grabarArchIn(int n, int cA, double porcAdy, int grMax, int grMin, MatrizSimetrica mat, String path){
 		FileWriter fw = null;
 		PrintWriter pw = null;
 		try {
 			fw = new FileWriter(new File(path));
 			pw = new PrintWriter(fw);
-			pw.println(N + " " + cA + " " + porcAdy + " " + grMax + " " + grMin);
-			for (int i = 0; i < N-1; i++) {
-				for (int j = i+1; j < N; j++) {
+			pw.println(n + " " + cA + " " + porcAdy + " " + grMax + " " + grMin);
+			for (int i = 0; i < n-1; i++) {
+				for (int j = i+1; j < n; j++) {
 					if(mat.leerVal(i, j))
 						pw.println(i + " " + j);
 				}
